@@ -34,7 +34,7 @@ import { GraphModalComponent } from './graph-modal/graph-modal.component';
     EditAlarmModalComponent,
     DeleteDeviceModalComponent,
     AddAlarmModalComponent,
-    GraphModalComponent
+    GraphModalComponent,
   ],
   imports: [
     BrowserModule,

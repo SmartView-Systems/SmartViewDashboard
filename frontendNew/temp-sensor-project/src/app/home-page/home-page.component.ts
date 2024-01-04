@@ -89,7 +89,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   openGraphModal(sensor: any): void {
     this.selectedSensor = { ...sensor };
-    this.modalRef = this.modalService.open(GraphModalComponent, { centered: true, size: 'lg' });
+    this.modalRef = this.modalService.open(GraphModalComponent, { centered: true, size: 'xl' });
     this.modalRef.componentInstance.selectedSensor = this.selectedSensor;
     this.modalRef.componentInstance.labApi = this.labApi;
 

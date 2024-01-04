@@ -1,3 +1,60 @@
+/* graph-modal.component.css */
+
+.modal-container {
+    display: flex;
+    width: 100%; /* Adjust the width as needed */
+    margin: 0 auto; /* Center the modal horizontally */
+}
+
+.charts {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    flex: 1; /* Take up available space in the modal */
+}
+
 .chart {
-    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Set specific heights for each chart canvas */
+.chart canvas {
+    height: 300px; /* Adjust the height as needed */
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the table content vertically */
+    justify-content: center; /* Center the table content horizontally */
+    flex: 1; /* Take up available space in the modal */
+    margin-right: 30px;
+}
+
+table {
+    width: 100%; /* Adjust the table width as needed */
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.table-title {
+    margin-bottom: 10px;
+    text-align: center; /* Center the table title */
+    width: 100%; /* Make sure the title spans the entire width */
+}
+
+.modal-title {
+    border-radius: 5px 5px 0px 0px; 
+    text-align: center;
+    padding-top: 15px;
+    background-color: #D3D3D3;
 }

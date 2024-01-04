@@ -1,3 +1,63 @@
-<div>
-    <canvas #chartCanvas class="chart"></canvas>
-</div>
+<!-- graph-modal.component.html -->
+<h2 class="modal-title">{{selectedSensor.DeviceName}} Data</h2>
+<div class="modal-container">
+
+    <div class="charts">
+      <div class="chart">
+        <canvas #temperatureHumidityCanvas class="chart-canvas"></canvas>
+      </div>
+      <div class="chart">
+        <canvas #otherDataCanvas class="chart-canvas"></canvas>
+      </div>
+    </div>
+    <div class="table">
+       <div class="table-title">
+        <h2>Current Values</h2>
+       </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Current Value</th>
+          </tr>
+        </thead>
+        <!-- Table rows with current values -->
+        <tbody>
+          <tr>
+            <td>Temperature</td>
+            <td>{{ selectedSensor.Temperature }}&deg;C</td>
+          </tr>
+          <tr>
+            <td>Humidity</td>
+            <td>{{ selectedSensor.Humidity }}%</td>
+          </tr>
+          <tr>
+            <td>CO</td>
+            <td>{{ selectedSensor.CO }} PPM</td>
+          </tr>
+          <tr>
+            <td>Alcohol</td>
+            <td>{{ selectedSensor.Alcohom }} PPM</td>
+          </tr>
+          <tr>
+            <td>CO2</td>
+            <td>{{ selectedSensor.CO2 }} PPM</td>
+          </tr>
+          <tr>
+            <td>Toluene</td>
+            <td>{{ selectedSensor.Toluene }} PPM</td>
+          </tr>
+          <tr>
+            <td>NH4</td>
+            <td>{{ selectedSensor.NH4 }} PPM</td>
+          </tr>
+          <tr>
+            <td>Acetone</td>
+            <td>{{ selectedSensor.Acetone }} PPM</td>
+          </tr>
+          <!-- Add rows for other parameters -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
