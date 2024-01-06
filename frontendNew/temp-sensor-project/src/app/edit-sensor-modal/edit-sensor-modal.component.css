@@ -17,7 +17,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
+  max-width: 1000px;
   width: 100%;
 }
 
@@ -66,9 +66,18 @@ input {
 }
 
 .save-button {
-  background-color: #369;
+  background-color: #25A1B0;
 }
 
 .cancel-button {
   background-color: #d9534f;
+}
+
+textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  height: 150px; /* Adjust the height as needed */
+  resize: vertical; /* Allow vertical resizing */
 }

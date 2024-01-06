@@ -90,4 +90,10 @@ export class ApiService {
     const url = `${this.apiUrl}/sendDeviceRefresh?labApi=${labApi}`;
     return this.http.get(url, { headers: this.getHeaders() });
   }
+
+  getAIInput(labApi: string, deviceID: string): Observable<any> {
+    const url = `${this.apiUrl}/getAIInput?labApi=${labApi}&deviceID=${deviceID}`;
+
+    return this.http.get(url, { headers: this.getHeaders() });
+  }
 }
