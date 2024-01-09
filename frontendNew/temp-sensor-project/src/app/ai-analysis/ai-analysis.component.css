@@ -79,7 +79,7 @@ h2 {
   background-color: #25A1B0; /* Color of the progress bar */
   width: 0%;
   border-radius: 10px;
-  animation: loadingAnimation 45s linear forwards;
+  animation: loadingAnimation 50s linear forwards;
 }
 
 @keyframes loadingAnimation {

@@ -1,38 +1,36 @@
 /* graph-modal.component.css */
 
+.modal-title {
+    text-align: center;
+}
+
 .modal-container {
     display: flex;
-    width: 100%; /* Adjust the width as needed */
-    margin: 0 auto; /* Center the modal horizontally */
+    flex-direction: column; /* Stack elements vertically on smaller screens */
+    width: 100%;
+    margin: 0 auto;
 }
 
-.charts {
-    display: flex;
-    flex-direction: column;
-    margin-right: 20px;
-    flex: 1; /* Take up available space in the modal */
-}
-
-.chart {
-    margin-bottom: 20px;
+.charts, .table {
+    width: 100%; /* Full width on smaller screens */
 }
 
 /* Set specific heights for each chart canvas */
 .chart canvas {
     height: 300px; /* Adjust the height as needed */
+    width: 100%; /* Ensure canvas takes full width of its container */
 }
 
 .table {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center the table content vertically */
-    justify-content: center; /* Center the table content horizontally */
-    flex: 1; /* Take up available space in the modal */
-    margin-right: 30px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px; /* Add spacing between charts and table */
 }
 
 table {
-    width: 100%; /* Adjust the table width as needed */
+    width: 100%;
     border-collapse: collapse;
 }
 
@@ -42,30 +40,36 @@ th, td {
     text-align: left;
 }
 
-th {
-    background-color: #f2f2f2;
-}
-
-.table-title {
-    margin-bottom: 10px;
-    text-align: center; /* Center the table title */
-    width: 100%; /* Make sure the title spans the entire width */
-}
-
-.modal-title {
-    border-radius: 5px 5px 0px 0px; 
-    text-align: center;
-    padding-top: 15px;
-    background-color: #D3D3D3;
-}
-
 .analyze-button {
-    margin-top: 50px;
+    margin-top: 20px;
     padding: 10px;
-    width: 48%;
+    width: 100%; /* Full width button */
     cursor: pointer;
     border: none;
     border-radius: 4px;
     color: #fff;
     background-color: #25A1B0;
+}
+
+/* Responsive Design for larger screens */
+@media (min-width: 768px) {
+    .modal-container {
+        flex-direction: row; /* Side by side on larger screens */
+    }
+
+    .charts, .table {
+        flex: 1; /* Split space evenly between charts and table */
+        margin-right: 20px; /* Add margin between charts and table */
+    }
+
+    .analyze-button {
+        width: 48%; /* Adjust button width on larger screens */
+    }
+}
+
+/* Further adjustments for very large screens if necessary */
+@media (min-width: 1024px) {
+    .chart canvas {
+        height: 400px; /* Larger height for charts on very large screens */
+    }
 }
