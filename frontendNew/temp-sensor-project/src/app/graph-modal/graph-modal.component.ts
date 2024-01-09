@@ -17,6 +17,7 @@ Chart.register(...registerables);
 export class GraphModalComponent implements OnInit {
   @Input() selectedSensor: any;
   @Input() labApi: any;
+  @Input() sendData: any;
   @Output() closeModalEvent = new EventEmitter<void>;
 
   @ViewChild('temperatureHumidityCanvas') temperatureHumidityCanvas!: ElementRef;
@@ -26,6 +27,7 @@ export class GraphModalComponent implements OnInit {
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
+    console.log("SENDDATA: ", this.sendData)
     // Fetching historical data for the device
     this.apiService.getAllHistoricalDataForDevice(this.labApi, this.selectedSensor.DeviceID).subscribe(
       (response) => {
@@ -191,5 +193,9 @@ export class GraphModalComponent implements OnInit {
   openAIAnalysis(): void {
     this.closeModalEvent.emit();
     this.router.navigate(['/ai-analysis', { deviceID: this.selectedSensor.DeviceID, labApi: this.labApi }]);
+  }
+
+  parseInteger(value: string): number {
+    return parseInt(value, 10);
   }
 }

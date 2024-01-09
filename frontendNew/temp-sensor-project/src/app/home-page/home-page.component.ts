@@ -92,6 +92,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.open(GraphModalComponent, { centered: true, size: 'xl' });
     this.modalRef.componentInstance.selectedSensor = this.selectedSensor;
     this.modalRef.componentInstance.labApi = this.labApi;
+    this.modalRef.componentInstance.sendData = sensor.SendData;
 
     // Subscribe to the close event
     this.modalRef.componentInstance.closeModalEvent.subscribe(() => this.closeModal());
@@ -109,5 +110,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
   convertEpochToDateTime(epochTime: number): string {
     const date = new Date(epochTime * 1000);
     return date.toLocaleString('en-US', { timeZone: 'America/New_York' });
+  }
+
+  parseInteger(value: string): number {
+    return parseInt(value, 10);
   }
 }

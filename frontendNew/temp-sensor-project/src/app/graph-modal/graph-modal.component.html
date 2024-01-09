@@ -25,37 +25,36 @@
         <tbody>
           <tr>
             <td>Temperature</td>
-            <td>{{ selectedSensor.Temperature }}&deg;C</td>
+            <td>{{ parseInteger(sendData[0]) ? selectedSensor.Temperature + '°C' : 'Not Sampling' }}</td>
           </tr>
           <tr>
             <td>Humidity</td>
-            <td>{{ selectedSensor.Humidity }}%</td>
+            <td>{{ parseInteger(sendData[1]) ? selectedSensor.Humidity + '%' : 'Not Sampling' }}</td>
           </tr>
           <tr>
             <td>CO</td>
-            <td>{{ selectedSensor.CO }} PPM</td>
+            <td>{{ parseInteger(sendData[2]) ? selectedSensor.CO + 'ppm' : 'Not Sampling' }}</td>
           </tr>
           <tr>
             <td>Alcohol</td>
-            <td>{{ selectedSensor.Alcohol }} PPM</td>
+            <td>{{ parseInteger(sendData[3]) ? selectedSensor.Alcohol + 'ppm' : 'Not Sampling' }}</td>
           </tr>
           <tr>
             <td>CO2</td>
-            <td>{{ selectedSensor.CO2 }} PPM</td>
+            <td>{{ parseInteger(sendData[4]) ? selectedSensor.CO2 + 'ppm' : 'Not Sampling' }}</td>
           </tr>
           <tr>
             <td>Toluene</td>
-            <td>{{ selectedSensor.Toluene }} PPM</td>
+            <td>{{ parseInteger(sendData[5]) ? selectedSensor.Toluene + 'ppm' : 'Not Sampling' }}</td>
           </tr>
           <tr>
             <td>NH4</td>
-            <td>{{ selectedSensor.NH4 }} PPM</td>
+            <td>{{ parseInteger(sendData[6]) ? selectedSensor.NH4 + 'ppm' : 'Not Sampling' }}</td>
           </tr>
           <tr>
             <td>Acetone</td>
-            <td>{{ selectedSensor.Acetone }} PPM</td>
+            <td>{{ parseInteger(sendData[7]) ? selectedSensor.Acetone + 'ppm' : 'Not Sampling' }}</td>
           </tr>
-          <!-- Add rows for other parameters -->
         </tbody>
       </table>
       <button class="analyze-button" (click)="openAIAnalysis()">Analyze With AI</button>
