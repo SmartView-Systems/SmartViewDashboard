@@ -3,6 +3,7 @@
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 
 import 'chartjs-adapter-moment';
@@ -22,7 +23,7 @@ export class GraphModalComponent implements OnInit {
   @ViewChild('otherDataCanvas') otherDataCanvas!: ElementRef;
   chartData: any[] = [];
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     // Fetching historical data for the device
@@ -185,8 +186,10 @@ export class GraphModalComponent implements OnInit {
     };
   
     return options;
+  }  
+
+  openAIAnalysis(): void {
+    this.closeModalEvent.emit();
+    this.router.navigate(['/ai-analysis', { deviceID: this.selectedSensor.DeviceID, labApi: this.labApi }]);
   }
-  
-  
-  
 }

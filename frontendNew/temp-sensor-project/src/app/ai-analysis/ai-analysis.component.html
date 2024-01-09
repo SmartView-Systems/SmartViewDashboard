@@ -1,0 +1,22 @@
+<app-nav-bar></app-nav-bar>
+<div class="ai-analysis-title">
+  <h2>Lab Expert's Recommendations</h2>
+</div>
+<div class="ai-analysis-container">
+
+  <!-- Loading Indicator -->
+  <div *ngIf="aiResponse === null" class="loading-indicator">
+    <div class="loading-bar">
+      <div class="loading-progress"></div>
+    </div>
+    <p>Loading AI analysis results...</p>
+  </div>  
+
+  <!-- AI Response -->
+  <div *ngIf="aiResponse !== null" class="ai-response">
+    <!-- Display AI analysis data here -->
+    <div class="result">
+      <div *ngIf="aiResponse" [innerHTML]="htmlContent"></div>
+    </div>
+  </div>
+</div>

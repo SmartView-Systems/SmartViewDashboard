@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
+interface NetlifyResponse {
+  success: boolean;
+  message: string;
+  data: string; // Adjust the type according to your actual data structure
+}
 
 @Injectable({
   providedIn: 'root',
@@ -91,9 +98,16 @@ export class ApiService {
     return this.http.get(url, { headers: this.getHeaders() });
   }
 
-  getAIInput(labApi: string, deviceID: string): Observable<any> {
-    const url = `${this.apiUrl}/getAIInput?labApi=${labApi}&deviceID=${deviceID}`;
-
-    return this.http.get(url, { headers: this.getHeaders() });
+  analyzeWithAI(labApi: string, deviceID: string): Observable<any> {
+    const netlifyUrl = `${this.apiUrl}/getAIInput?labApi=${labApi}&deviceID=${deviceID}`;
+    const awsUrl = `https://vz5e75kitbumpolcfruejxl5fe0brqkq.lambda-url.us-east-1.on.aws/`;
+  
+    return this.http.get<NetlifyResponse>(netlifyUrl, { headers: this.getHeaders() }).pipe(
+      switchMap(response => {
+        const awsRequestBody = { input: response.data };
+        console.log(awsRequestBody)
+        return this.http.post(awsUrl, awsRequestBody, { headers: this.getHeaders() });
+      })
+    );
   }
 }

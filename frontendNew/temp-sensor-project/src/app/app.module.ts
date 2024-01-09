@@ -3,7 +3,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-
+import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -20,6 +20,7 @@ import { AddAlarmModalComponent } from './add-alarm-modal/add-alarm-modal.compon
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CorsInterceptor } from './http-interceptor';
 import { GraphModalComponent } from './graph-modal/graph-modal.component';
+import { AiAnalysisComponent } from './ai-analysis/ai-analysis.component';
 
 @NgModule({
   declarations: [
@@ -35,13 +36,15 @@ import { GraphModalComponent } from './graph-modal/graph-modal.component';
     DeleteDeviceModalComponent,
     AddAlarmModalComponent,
     GraphModalComponent,
+    AiAnalysisComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    LMarkdownEditorModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
