@@ -14,6 +14,12 @@
           <select id="newSensorType" name="newSensorType" [(ngModel)]="newAlarm.SensorType" [ngModelOptions]="{standalone: true}" required>
             <option value="Temperature" [selected]="newAlarm.SensorType === 'Temperature'">Temperature</option>
             <option value="Humidity" [selected]="newAlarm.SensorType === 'Humidity'">Humidity</option>
+            <option value="CO" [selected]="newAlarm.SensorType === 'CO'">CO</option>
+            <option value="Alcohol" [selected]="newAlarm.SensorType === 'Alcohol'">Alcohol</option>
+            <option value="CO2" [selected]="newAlarm.SensorType === 'CO2'">CO2</option>
+            <option value="Toluene" [selected]="newAlarm.SensorType === 'Toluene'">Toluene</option>
+            <option value="NH4" [selected]="newAlarm.SensorType === 'NH4'">NH4</option>
+            <option value="Acetone" [selected]="newAlarm.SensorType === 'Acetone'">Acetone</option>
           </select>
         </div>
   
