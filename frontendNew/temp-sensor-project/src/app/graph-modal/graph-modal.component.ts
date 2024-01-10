@@ -1,6 +1,9 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, OnInit } from '@angular/core';
+// graph-modal.component.ts
+
+import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 
 import 'chartjs-adapter-moment';
@@ -14,22 +17,25 @@ Chart.register(...registerables);
 export class GraphModalComponent implements OnInit {
   @Input() selectedSensor: any;
   @Input() labApi: any;
+  @Input() sendData: any;
   @Output() closeModalEvent = new EventEmitter<void>;
 
-  @ViewChild('chartCanvas') chartCanvas!: ElementRef;
+  @ViewChild('temperatureHumidityCanvas') temperatureHumidityCanvas!: ElementRef;
+  @ViewChild('otherDataCanvas') otherDataCanvas!: ElementRef;
   chartData: any[] = [];
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
+    console.log("SENDDATA: ", this.sendData)
+    // Fetching historical data for the device
     this.apiService.getAllHistoricalDataForDevice(this.labApi, this.selectedSensor.DeviceID).subscribe(
       (response) => {
         if (response.success) {
           this.chartData = response.data;
-          console.log(this.chartData);
-          console.log("Temp Data: ", this.chartData.map(entry => entry.Temperature))
-          console.log("Humidity Data: ", this.chartData.map(entry => entry.Humidity))
-          console.log("Times: ", this.chartData.map(entry => new Date(entry.Time * 1000).toISOString()))
+          console.log('Fetched Data:', this.chartData);
+          
+          // Now that data is available, create the chart
           this.createChart();
         }
       },
@@ -40,12 +46,22 @@ export class GraphModalComponent implements OnInit {
   }
 
   createChart(): void {
-    const ctx = (this.chartCanvas.nativeElement as HTMLCanvasElement).getContext('2d');
+    const temperatureHumidityCanvas = this.temperatureHumidityCanvas?.nativeElement as HTMLCanvasElement | null;
+    const otherDataCanvas = this.otherDataCanvas?.nativeElement as HTMLCanvasElement | null;
   
+    if (temperatureHumidityCanvas && otherDataCanvas) {
+      this.createTemperatureHumidityChart(temperatureHumidityCanvas);
+      this.createOtherDataChart(otherDataCanvas);
+    }
+  }
+  
+  
+  private createTemperatureHumidityChart(canvas: HTMLCanvasElement): void {
+    const ctx = canvas.getContext('2d');
     if (ctx) {
       const formattedTimes = this.chartData.map(entry => moment(entry.Time * 1000).format('MM/DD HH:mm'));
   
-      const config: ChartConfiguration = {
+      const temperatureHumidityConfig: ChartConfiguration = {
         type: 'line',
         data: {
           labels: formattedTimes,
@@ -53,46 +69,133 @@ export class GraphModalComponent implements OnInit {
             {
               label: 'Temperature',
               data: this.chartData.map(entry => entry.Temperature),
-              borderColor: 'red',
-              backgroundColor: 'rgba(255, 0, 0, 0.1)',
+              borderColor: 'rgb(255, 159, 64)',
+              backgroundColor: 'rgba(255, 159, 64, 0.1)',
             },
             {
               label: 'Humidity',
               data: this.chartData.map(entry => entry.Humidity),
-              borderColor: 'blue',
-              backgroundColor: 'rgba(0, 0, 255, 0.1)',
+              borderColor: 'rgb(54, 162, 235)',
+              backgroundColor: 'rgba(54, 162, 235, 0.1)',
             },
           ],
         },
-        options: {
-          scales: {
-            x: {
-              type: 'category',
-            },
-            y: {
-              type: 'linear',
-            },
-          },
-          plugins: {
-            title: {
-              display: true,
-              text: `${this.selectedSensor.DeviceName} Data`,
-              font: {
-                size: 16,
-              },
-            },
-            legend: {
-              position: 'bottom',
-            },
-          },
-          maintainAspectRatio: false, // Set to false to make the chart fill the container
-          responsive: true, // Enable responsiveness
-        },
+        options: this.getCommonChartOptions(`${this.selectedSensor.DeviceName} Temperature and Humidity`),
       };
   
-      const chartInstance = new Chart(ctx, config);
+      console.log('Temperature Humidity Config:', temperatureHumidityConfig);
+  
+      new Chart(ctx, temperatureHumidityConfig);
     }
   }
   
-    
+  private createOtherDataChart(canvas: HTMLCanvasElement): void {
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      const formattedTimes = this.chartData.map(entry => moment(entry.Time * 1000).format('MM/DD HH:mm'));
+  
+      const otherDataConfig: ChartConfiguration = {
+        type: 'line',
+        data: {
+          labels: formattedTimes,
+          datasets: [
+            {
+              label: 'CO',
+              data: this.chartData.map(entry => entry.CO),
+              borderColor: 'rgb(128, 128, 128)',
+              backgroundColor: 'rgba(128, 128, 128, 0.1)',
+            },
+            {
+              label: 'Alcohol',
+              data: this.chartData.map(entry => entry.Alcohol),
+              borderColor: 'rgb(171, 121, 209)',
+              backgroundColor: 'rgba(171, 121, 209, 0.1)',
+            },
+            {
+              label: 'CO2',
+              data: this.chartData.map(entry => entry.CO2),
+              borderColor: 'rgb(106, 168, 79)',
+              backgroundColor: 'rgba(106, 168, 79, 0.1)',
+            },
+            {
+              label: 'Toluene',
+              data: this.chartData.map(entry => entry.Toluene),
+              borderColor: 'rgb(195, 123, 125)',
+              backgroundColor: 'rgba(195, 123, 125, 0.1)',
+            },
+            {
+              label: 'NH4',
+              data: this.chartData.map(entry => entry.NH4),
+              borderColor: 'rgb(164, 211, 156)',
+              backgroundColor: 'rgba(164, 211, 156, 0.1)',
+            },
+            {
+              label: 'Acetone',
+              data: this.chartData.map(entry => entry.Acetone),
+              borderColor: 'rgb(72, 201, 176)',
+              backgroundColor: 'rgba(72, 201, 176, 0.1)',
+            }
+          ],
+        },
+        options: this.getCommonChartOptions(`${this.selectedSensor.DeviceName} Air Quality`, true, [0, 3]),
+      };
+  
+      console.log('Other Data Config:', otherDataConfig);
+  
+      new Chart(ctx, otherDataConfig);
+    }
+  }
+  
+  
+
+  private getCommonChartOptions(title: string, isLogScale: boolean = false, customYAxisTicks?: number[]): any {
+    const options: any = {
+      scales: {
+        x: {
+          type: 'category',
+        },
+        y: {
+          type: isLogScale ? 'logarithmic' : 'linear',
+          ticks: {
+            min: customYAxisTicks ? Math.min(...customYAxisTicks) : undefined,
+            max: customYAxisTicks ? Math.max(...customYAxisTicks) : undefined,
+            stepSize: customYAxisTicks ? undefined : 1,
+          },
+        },
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: title,
+          font: {
+            size: 16,
+          },
+        },
+        legend: {
+          position: 'bottom',
+        },
+      },
+      maintainAspectRatio: false,
+      responsive: true,
+      layout: {
+        padding: {
+          top: 20,
+          right: 20,
+          bottom: 30,
+          left: 20,
+        },
+      },
+    };
+  
+    return options;
+  }  
+
+  openAIAnalysis(): void {
+    this.closeModalEvent.emit();
+    this.router.navigate(['/ai-analysis', { deviceID: this.selectedSensor.DeviceID, labApi: this.labApi }]);
+  }
+
+  parseInteger(value: string): number {
+    return parseInt(value, 10);
+  }
 }

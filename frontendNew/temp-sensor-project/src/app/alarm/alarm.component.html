@@ -6,7 +6,7 @@
     <div *ngFor="let alarm of alarms" class="alarm-container" [ngStyle]="{ 'background-color': getBackgroundColor(alarm.Status) }">
         <div class="device-info">
             <h2>Device: {{ alarm.DeviceName }}</h2>
-            <p>Send alarm if: {{ alarm.SensorType }} {{ alarm.Compare }} {{ alarm.Threshold }} {{ alarm.SensorType == "Temperature" ? '&deg;C' : '%' }}</p>
+            <p>Send alarm if: {{ alarm.SensorType }} {{ alarm.Compare }} {{ alarm.Threshold }} {{ alarm.SensorType == "Temperature" ? '&deg;C' : alarm.SensorType == "Humidity" ? '%' : 'ppm' }}</p>
             <p>Status: {{ alarm.Status}}</p>
         </div>
         <div class="alarm-actions">

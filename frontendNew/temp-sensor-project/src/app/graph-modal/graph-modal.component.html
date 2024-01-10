@@ -1,3 +1,63 @@
-<div>
-    <canvas #chartCanvas class="chart"></canvas>
-</div>
+<!-- graph-modal.component.html -->
+<h2 class="modal-title">{{selectedSensor.DeviceName}} Data</h2>
+<div class="modal-container">
+
+    <div class="charts">
+      <div class="chart">
+        <canvas #temperatureHumidityCanvas class="chart-canvas"></canvas>
+      </div>
+      <div class="chart">
+        <canvas #otherDataCanvas class="chart-canvas"></canvas>
+      </div>
+    </div>
+    <div class="table">
+       <div class="table-title">
+        <h2>Current Values</h2>
+       </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Current Value</th>
+          </tr>
+        </thead>
+        <!-- Table rows with current values -->
+        <tbody>
+          <tr>
+            <td>Temperature</td>
+            <td>{{ parseInteger(sendData[0]) ? selectedSensor.Temperature + '°C' : 'Not Sampling' }}</td>
+          </tr>
+          <tr>
+            <td>Humidity</td>
+            <td>{{ parseInteger(sendData[1]) ? selectedSensor.Humidity + '%' : 'Not Sampling' }}</td>
+          </tr>
+          <tr>
+            <td>CO</td>
+            <td>{{ parseInteger(sendData[2]) ? selectedSensor.CO + 'ppm' : 'Not Sampling' }}</td>
+          </tr>
+          <tr>
+            <td>Alcohol</td>
+            <td>{{ parseInteger(sendData[3]) ? selectedSensor.Alcohol + 'ppm' : 'Not Sampling' }}</td>
+          </tr>
+          <tr>
+            <td>CO2</td>
+            <td>{{ parseInteger(sendData[4]) ? selectedSensor.CO2 + 'ppm' : 'Not Sampling' }}</td>
+          </tr>
+          <tr>
+            <td>Toluene</td>
+            <td>{{ parseInteger(sendData[5]) ? selectedSensor.Toluene + 'ppm' : 'Not Sampling' }}</td>
+          </tr>
+          <tr>
+            <td>NH4</td>
+            <td>{{ parseInteger(sendData[6]) ? selectedSensor.NH4 + 'ppm' : 'Not Sampling' }}</td>
+          </tr>
+          <tr>
+            <td>Acetone</td>
+            <td>{{ parseInteger(sendData[7]) ? selectedSensor.Acetone + 'ppm' : 'Not Sampling' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="analyze-button" (click)="openAIAnalysis()">Analyze With AI</button>
+    </div>
+  </div>
+  

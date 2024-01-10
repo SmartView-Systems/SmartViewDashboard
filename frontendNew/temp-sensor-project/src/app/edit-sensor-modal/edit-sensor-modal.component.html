@@ -21,6 +21,25 @@
         </select>
       </div>
 
+      <div class="form-group">
+        <label class="section-header">Data to be Recorded:</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" id="editedSendTemp" name="editedSendTemp" [(ngModel)]="sendTemp" placeholder="{{ sendTemp }}">Temperature</label>
+          <label><input type="checkbox" id="editedSendHum" name="editedSendHum" [(ngModel)]="sendHum" placeholder="{{ sendHum }}">Humidity</label>
+          <label><input type="checkbox" id="editedSendCO" name="editedSendCO" [(ngModel)]="sendCO" placeholder="{{ sendCO }}">CO</label>
+          <label><input type="checkbox" id="editedSendAlc" name="editedSendAlc" [(ngModel)]="sendAlc" placeholder="{{ sendAlc }}">Alcohol</label>
+          <label><input type="checkbox" id="editedSendCO2" name="editedSendCO2" [(ngModel)]="sendCO2" placeholder="{{ sendCO2 }}">CO2</label>
+          <label><input type="checkbox" id="editedSendTol" name="editedSendTol" [(ngModel)]="sendTol" placeholder="{{ sendTol }}">Toluene</label>
+          <label><input type="checkbox" id="editedSendNH4" name="editedSendNH4" [(ngModel)]="sendNH4" placeholder="{{ sendNH4 }}">NH4</label>
+          <label><input type="checkbox" id="editedSendTemp" name="editedSendAct" [(ngModel)]="sendAct" placeholder="{{ sendAct }}">Acetone</label>         
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="editedExperiment">Experiment Summary:</label>
+        <textarea id="editedExperiment" name="editedExperiment" [(ngModel)]="editedSensor.Experiment" placeholder="{{ editedSensor.Experiment }}" required></textarea>
+      </div>
+
       <div class="button-group">
         <button type="button" class="save-button" (click)="saveChanges()">Save Changes</button>
         <button type="button" class="cancel-button" (click)="closeModal()">Cancel</button>

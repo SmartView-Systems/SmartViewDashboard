@@ -7,12 +7,14 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
 import { DeviceConfigComponent } from './device-config/device-config.component';
 import { AlarmComponent } from './alarm/alarm.component';
+import { AiAnalysisComponent } from './ai-analysis/ai-analysis.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'config', component: DeviceConfigComponent, canActivate: [AuthGuard]},
   { path: 'alarm', component: AlarmComponent, canActivate: [AuthGuard]},
+  { path: 'ai-analysis', component: AiAnalysisComponent, canActivate: [AuthGuard]},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 

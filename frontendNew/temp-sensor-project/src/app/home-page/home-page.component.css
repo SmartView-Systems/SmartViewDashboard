@@ -11,7 +11,7 @@
 
 .refresh-button {
   background-color: #eee;
-  color: #369;
+  color: #25A1B0;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -29,45 +29,65 @@
   background-color: black; /* Darker green on hover */
 }
   
-  .sensor-wrapper {
-    margin: 50px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .sensor-container {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    width: 300px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .sensor-info {
-    color: #333;
-  }
-  
-  .sensor-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .sensor-wrapper button {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    width: 300px;
-    height: 200px;
-    cursor: pointer;
-    font-size: 50px;
-    justify-content: center;
-  }
-  
-  .sensor-wrapper button:hover {
-    background-color: black;
-    color: white;
-  }
-  
+.sensor-wrapper {
+  margin-top: 50px;
+  margin-left: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.sensor-container {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 310px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+}
+
+.sensor-info {
+  color: #333;
+}
+
+.sensor-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.sensor-wrapper button {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 300px;
+  height: 200px;
+  cursor: pointer;
+  font-size: 50px;
+  justify-content: center;
+}
+
+.sensor-wrapper button:hover {
+  background-color: black;
+  color: white;
+}
+
+/* Adjust the width of the modal container */
+.ngb-modal-window {
+  max-width: 90%;
+}
+
+/* Optional: Center the table on the right within the modal */
+.ngb-modal-content {
+  display: flex;
+}
+
+.table {
+  flex: 1;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.modal-container {
+  width: 100%; /* Set the width to 100% for the modal container */
+}

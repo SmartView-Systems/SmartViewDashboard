@@ -29,7 +29,7 @@ export class DeviceConfigComponent {
     this.labApi = this.authService.labApi;
 
     // Fetch data using labApi
-    this.apiService.getHomePageData(this.labApi).subscribe(
+    this.apiService.getAllConfig(this.labApi).subscribe(
       (response) => {
         if (response.success) {
           this.tempSensors = response.data;
@@ -43,7 +43,7 @@ export class DeviceConfigComponent {
 
   openEditModal(sensor: any): void {
     this.editedSensor = { ...sensor };
-    this.modalRef = this.modalService.open(EditSensorModalComponent, { centered: true, size: 'lg' });
+    this.modalRef = this.modalService.open(EditSensorModalComponent, { centered: true, size: 'xl' });
     this.modalRef.componentInstance.editedSensor = this.editedSensor;
 
     // Subscribe to the close and saveChanges events
@@ -55,7 +55,7 @@ export class DeviceConfigComponent {
 
   openDeleteModal(sensor: any): void {
     this.deletedSensor = { ...sensor };
-    this.modalRef = this.modalService.open(DeleteSensorModalComponent, { centered: true, size: 'lg' });
+    this.modalRef = this.modalService.open(DeleteSensorModalComponent, { centered: true, size: 'xl' });
     this.modalRef.componentInstance.deletedSensor = this.deletedSensor;
 
     // Subscribe to the deleteSensor and closeModal events
