@@ -21,7 +21,13 @@ const client = mqtt.connect(connectUrl, {
 
 
 const labName = ['nialab', 'anotherlab'];
-const topicPart = ['/INIT/OUT', '/DATA', '/STATUS/IN', '/CONFIG'];
+const topicPart = ['/INIT/OUT', '/DATA', '/STATUS/OUT', '/CONFIG', '/STATUS/IN'];
+
+//                  0              1          2    3         4     5         6     7
+const dataTypes = ['Temperature', 'Humidity','CO','Alcohol','CO2','Toluene','NH4','Acetone',]
+let dataArray = [];
+
+let returnDevices = [];
 
 const baseURL = "https://smartviewapi.netlify.app/.netlify/functions/"
 
@@ -69,7 +75,9 @@ client.on('message', async (topic, payload) => {
   }
 
 
-  // Inilize Device Message
+  //////////////////////////////
+  //          INIT            //
+  //////////////////////////////
   if(incomingTopic == topicPart[0]){
     console.log("INIT message detected");
 
@@ -110,6 +118,9 @@ client.on('message', async (topic, payload) => {
     }
   }
 
+  //////////////////////////////
+  //          Data            //
+  //////////////////////////////
   // Incoming Data Message
   if(returnInfo[1] == topicPart[1]){
     console.log("DATA message detected");
@@ -120,14 +131,18 @@ client.on('message', async (topic, payload) => {
     }
     else {
       const dataMessageInfo = await parseDataMessage(payload.toString());
+      console.log(`datamessage info looks like ${dataMessageInfo}`);
       const DeviceID = dataMessageInfo[0];
-      const Temperature = dataMessageInfo[2];
-      const Humidity = dataMessageInfo[3];
       const Time = dataMessageInfo[1];
+
+      dataArray.length = 0;
+      for (let index = 2; index <= 9; index++) {
+        dataArray.push(parseInt(dataMessageInfo[index]));
+      }
   
-      const resultRecent = await updateRecentDeviceData(incomingLab, DeviceID, Temperature, Humidity, Time)
-      const resultHistorical = await updateHistoricalDeviceData(incomingLab, DeviceID, Temperature, Humidity, Time)
-      const resultAlarm = await checkDeviceAlarmStatus(incomingLab, DeviceID, Temperature, Humidity, Time)
+      const resultRecent = await updateRecentDeviceData(incomingLab, DeviceID, Time, dataArray)
+      const resultHistorical = await updateHistoricalDeviceData(incomingLab, DeviceID, Time, dataArray)
+      const resultAlarm = await checkDeviceAlarmStatus(incomingLab, DeviceID, Time, dataArray)
 
       console.log("Recent Sataus:", resultRecent.status);
       console.log("Historical Status:", resultHistorical.status);
@@ -137,13 +152,46 @@ client.on('message', async (topic, payload) => {
     console.log("")
   }
 
-  //status in
+  //////////////////////////////
+  //       Status Request     //
+  //////////////////////////////
   if(returnInfo[1] == topicPart[2]){
+
+    // if there is a status message start a timmer.
+    // while the timmer is running, get all the messages on tipart /STATUS/IN and push them to an array
+    // after the timer is done call call Updatemanydevice with the array of devices.
     console.log("STATUS message detected");
-    console.log("Here is where I will call and API to return the status");
+    returnDevices.length = 0;
+    console.log("Start listending for messages");
+    setTimeout(async function() {
+      console.log("Finished listendng to messages");
+      console.log(`Now calling API with array ${returnDevices}`);
+      const deviceUpdateStatus = await updateManyDeviceStatus(incomingLab, returnDevices);
+      console.log("Recent Sataus:", deviceUpdateStatus.status);
+
+    }, 10000);
   }
 
+  //////////////////////////////
+  //      Status Response     //
+  //////////////////////////////
+  if(returnInfo[1] == topicPart[4]){
+    // if there is a status message start a timmer.
+    // while the timmer is running, get all the messages on tipart /STATUS/IN and push them to an array
+    // after the timer is done call call Updatemanydevice with the array of devices.
+    console.log(`STATUS message detected from device ${payload.toString()}`);
+
+    if (!returnDevices.includes(parseInt(payload))) {
+      returnDevices.push(parseInt(payload));
+    }else{
+      console.log(`ERROR, Device Number ${payload.toString()} is already added to the array`);
+    }
+  }
 })
+
+
+
+
 //////////////////////////////
 //        Functions         //
 //////////////////////////////
@@ -157,6 +205,35 @@ async function parseInitMessage(message){
 async function parseDataMessage(message){
   const dataMessageInfo = message.split(' ');
   return dataMessageInfo;
+}
+
+// 
+async function updateManyDeviceStatus(labName, deviceArray) {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  var raw = JSON.stringify(deviceArray);
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+  const functionString = "https://smartviewapi.netlify.app/.netlify/functions/updateManyDeviceStatus?labApi=" + labName;
+
+  try {
+    const response = await fetch(functionString, requestOptions);
+    const status = response.status;
+    const returnResponse = await response.text();
+    
+    // Return an object containing status and response text
+    return { status: status, response: returnResponse };
+  } catch (error) {
+    console.error('Error in updateManyDeviceStatus:', error);
+    throw error; // Rethrow the error to let the caller handle it
+  }
 }
 
 
@@ -193,16 +270,23 @@ async function addDeviceAPI(labName, IP, MAC) {
 }
 
 // This function will add data to the most recent data table
-async function updateRecentDeviceData(labName, DeviceID, Temperature, Humidity, Time) {
+async function updateRecentDeviceData(labName, DeviceID, Time, dataArray) {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
   var raw = JSON.stringify({
     "DeviceID": parseInt(DeviceID),
-    "Temperature": parseInt(Temperature),
-    "Humidity": parseInt(Humidity),
+    "Temperature": dataArray[0],
+    "Humidity": dataArray[1],
+    "CO": dataArray[2],
+    "Alcohol": dataArray[3],
+    "CO2": dataArray[4],
+    "Toluene": dataArray[5],
+    "NH4": dataArray[6],
+    "Acetone": dataArray[7],
     "Time": parseInt(Time)
   });
+
 
   var requestOptions = {
     method: 'POST',
@@ -227,14 +311,20 @@ async function updateRecentDeviceData(labName, DeviceID, Temperature, Humidity, 
 }
 
 // This function will add data to the historical data collection
-async function updateHistoricalDeviceData(labName, DeviceID, Temperature, Humidity, Time) {
+async function updateHistoricalDeviceData(labName, DeviceID, Time, dataArray) {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
   var raw = JSON.stringify({
     "DeviceID": parseInt(DeviceID),
-    "Temperature": parseInt(Temperature),
-    "Humidity": parseInt(Humidity),
+    "Temperature": dataArray[0],
+    "Humidity": dataArray[1],
+    "CO": dataArray[2],
+    "Alcohol": dataArray[3],
+    "CO2": dataArray[4],
+    "Toluene": dataArray[5],
+    "NH4": dataArray[6],
+    "Acetone": dataArray[7],
     "Time": parseInt(Time)
   });
 
@@ -261,14 +351,20 @@ async function updateHistoricalDeviceData(labName, DeviceID, Temperature, Humidi
 }
 
 // This function will check the current alarms
-async function checkDeviceAlarmStatus(labName, DeviceID, Temperature, Humidity, Time) {
+async function checkDeviceAlarmStatus(labName, DeviceID, Time, dataArray) {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
   var raw = JSON.stringify({
     "DeviceID": parseInt(DeviceID),
-    "Temperature": parseInt(Temperature),
-    "Humidity": parseInt(Humidity),
+    "Temperature": dataArray[0],
+    "Humidity": dataArray[1],
+    "CO": dataArray[2],
+    "Alcohol": dataArray[3],
+    "CO2": dataArray[4],
+    "Toluene": dataArray[5],
+    "NH4": dataArray[6],
+    "Acetone": dataArray[7],
     "Time": parseInt(Time)
   });
 

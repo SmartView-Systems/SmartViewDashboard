@@ -28,7 +28,7 @@ const client = mqtt.connect(connectUrl, {
 // (1) <lab>/INIT/OUT <IP> <MAC>
 const initMessage = "192.168.9.1 0C:DC:7E:CB:6C:D0";
 // (2) <lab>/DATA <DeviceID> <Time> <Temp> <Humidity>
-const dataPoint = "9 1703704262 97 23"
+const dataPoint = "2 1703704262 0 0 29 0 39 0 29 11"
 // (6) <lab>/STATUS/IN <deviceID>
 const statusMessage = "9";
 
