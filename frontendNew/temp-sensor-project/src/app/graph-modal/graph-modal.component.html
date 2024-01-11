@@ -11,8 +11,8 @@
       </div>
     </div>
     <div class="table">
-       <div class="table-title">
-        <h2>Current Values</h2>
+       <div>
+        <h3 class="table-title">Current Values</h3>
        </div>
       <table>
         <thead>
@@ -57,6 +57,12 @@
           </tr>
         </tbody>
       </table>
+      <div class="experiment-section">
+        <h3 class="experiment-title">Experiment Summary</h3>
+        <div class="experiment">
+            <p>{{selectedSensor.Experiment}}</p>
+        </div>
+      </div>
       <button class="analyze-button" (click)="openAIAnalysis()">Analyze With AI</button>
     </div>
   </div>

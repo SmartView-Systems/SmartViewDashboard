@@ -167,8 +167,11 @@ export class GraphModalComponent implements OnInit {
         title: {
           display: true,
           text: title,
+          color: '#444',
           font: {
             size: 16,
+            family: "'Arial', 'Helvetica', 'sans-serif'",
+            weight: 'bold'
           },
         },
         legend: {
