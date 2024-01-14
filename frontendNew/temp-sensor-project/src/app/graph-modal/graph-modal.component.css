@@ -32,6 +32,14 @@
     margin-top: 20px; /* Add spacing between charts and table */
 }
 
+.table-title {
+    text-align: center;
+    margin: 0;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 17px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -41,6 +49,26 @@ th, td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+}
+
+.experiment-title {
+    text-align: center;
+    color: #333; /* Adjust color as needed */
+    margin-top: 20px; /* Space between table and experiment title */
+    margin-bottom: 5px; /* Space between title and experiment content */
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.experiment {
+    border: 1px solid #ddd; /* Add a border */
+    background-color: #f9f9f9; /* Light background color */
+    padding: 10px; /* Padding inside the div */
+    margin-top: 20px; /* Margin above the experiment section */
+    max-height: 300px; /* Fixed maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    width: 100%; /* Match the width with the table */
+    text-align: center; /* Center the text inside the div */
 }
 
 .analyze-button {
