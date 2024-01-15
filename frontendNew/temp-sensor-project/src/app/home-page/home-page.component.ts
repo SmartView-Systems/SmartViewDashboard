@@ -13,7 +13,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 })
 export class HomePageComponent implements OnInit, OnDestroy {
   labApi: any;
-  labName: any = 'NIA Lab';
+  labName: any;
   tempSensors: any[] = [];
   private dataRefreshSubscription: Subscription | undefined;
 
@@ -30,6 +30,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Fetch labApi from AuthService
     this.labApi = this.authService.labApi;
+    this.labName = this.authService.labName;
+
 
     // Fetch initial data
     this.fetchData();

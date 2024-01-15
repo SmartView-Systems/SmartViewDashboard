@@ -29,8 +29,16 @@ export class AuthService {
     return localStorage.getItem('labApi') || '';
   }
 
+  get labName(): string {
+    return localStorage.getItem('labName') || '';
+  }
+
   set labApi(api: string) {
     localStorage.setItem('labApi', api);
+  }
+
+  set labName(name: string) {
+    localStorage.setItem('labName', name);
   }
 
   constructor(private http: HttpClient) {}
@@ -63,6 +71,7 @@ export class AuthService {
           console.log(response);
           this.isAuthenticated = true;
           this.labApi = response.api;
+          this.labName = username;
           return true;
         } else {
           this.isAuthenticated = false;
