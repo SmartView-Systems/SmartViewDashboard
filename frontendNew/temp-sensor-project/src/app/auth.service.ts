@@ -50,7 +50,7 @@ export class AuthService {
 
   // API call for user login
   async login(username: string, password: string): Promise<boolean> {
-    const loginUrl = 'https://smartviewapi.netlify.app/.netlify/functions/login';
+    const loginUrl = 'https://smartviewapi2.netlify.app/.netlify/functions/login';
 
     // No need to hash on the frontend
 

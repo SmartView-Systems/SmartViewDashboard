@@ -13,7 +13,7 @@ interface NetlifyResponse {
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = 'https://smartviewapi.netlify.app/.netlify/functions'; // Update this with your actual API URL
+  private apiUrl = 'https://smartviewapi2.netlify.app/.netlify/functions'; // Update this with your actual API URL
 
 
   constructor(private http: HttpClient) {}
