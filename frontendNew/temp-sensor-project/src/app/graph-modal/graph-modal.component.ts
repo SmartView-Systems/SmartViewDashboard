@@ -1,13 +1,12 @@
-// graph-modal.component.ts
-
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import zoomPlugin from 'chartjs-plugin-zoom';
 
 import 'chartjs-adapter-moment';
-Chart.register(...registerables);
+Chart.register(...registerables, zoomPlugin);
 
 @Component({
   selector: 'app-graph-modal',
@@ -71,6 +70,8 @@ export class GraphModalComponent implements OnInit {
               data: this.chartData.map(entry => entry.Temperature),
               borderColor: 'rgb(255, 159, 64)',
               backgroundColor: 'rgba(255, 159, 64, 0.1)',
+              pointRadius: 0,
+              tension: 0.4
             },
             {
               label: 'Humidity',
@@ -163,6 +164,12 @@ export class GraphModalComponent implements OnInit {
           },
         },
       },
+      elements: {
+        point: {
+          radius: 0,
+          pointStyle: 'line'
+        }
+      },
       plugins: {
         title: {
           display: true,
@@ -176,6 +183,21 @@ export class GraphModalComponent implements OnInit {
         },
         legend: {
           position: 'bottom',
+        },
+        zoom: {
+          pan: {
+            enabled: true,
+          },
+          zoom: {
+            wheel: {
+              enabled: true,
+              speed: 0.1
+            },
+            pinch: {
+              enabled: true
+            },
+            mode: 'xy'
+          }
         },
       },
       maintainAspectRatio: false,
