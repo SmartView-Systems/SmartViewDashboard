@@ -28,7 +28,7 @@ export class GraphModalComponent implements OnInit {
   ngOnInit(): void {
     console.log("SENDDATA: ", this.sendData)
     // Fetching historical data for the device
-    this.apiService.getAllHistoricalDataForDevice(this.labApi, this.selectedSensor.DeviceID).subscribe(
+    this.apiService.getGraphData(this.labApi, this.selectedSensor.DeviceID).subscribe(
       (response) => {
         if (response.success) {
           this.chartData = response.data;

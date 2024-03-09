@@ -75,6 +75,12 @@ export class ApiService {
     return this.http.get(url, { headers: this.getHeaders() });
   }
 
+  getGraphData(labApi: string, deviceID: string): Observable<any> {
+    const url = `${this.apiUrl}/getGraphData?labApi=${labApi}&deviceID=${deviceID}`;
+
+    return this.http.get(url, { headers: this.getHeaders() });
+  }
+
   addAlarm(labApi: string, alarmObject: any): Observable<any> {
     const url = `${this.apiUrl}/addAlarm?labApi=${labApi}`;
     
